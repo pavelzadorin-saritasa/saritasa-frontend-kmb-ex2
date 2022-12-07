@@ -1,0 +1,19 @@
+# deps
+/node_modules
+
+# caches/builds
+.angular/
+.eslintcache
+dist/
+coverage/
+**/.DS_Store
+
+# IDEs
+.idea/
+.vscode/.settings.json
+.vscode/launch.json
+# intentionally not ignoring .vscode since it's generated automatically by the Angular CLI, therefore intended to be left as it is
+
+# e2e
+e2e/*.js
+e2e/*.map

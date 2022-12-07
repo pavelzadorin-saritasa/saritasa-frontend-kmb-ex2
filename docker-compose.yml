@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  api:
+    build: ./api
+    ports:
+      - 8000:8000
+    working_dir: /app
+    volumes:
+      - ./api:/app
+    environment:
+      HTTPHOST: 0.0.0.0
+      HTTPPORT: 8000
+      PGHOST: postgres
+      PGUSER: postgres
+      PGPASSWORD: secret
+      PGDATABASE: vocabulary
+
+  postgres:
+    image: postgres
+    volumes:
+      - vocabulary-db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: vocabulary
+    ports:
+       - 5432:5432
+
+  ui:
+    build: ./ui
+    ports:
+       - 80:80
+
+volumes:
+  vocabulary-db-data:

@@ -1,0 +1,40 @@
+<form class="auth-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <header>
+    <h1 class="auth-form__heading">Log In</h1>
+  </header>
+
+  <euc-label class="auth-form__label" labelText="Email">
+    <input
+      type="email"
+      autocomplete="email"
+      formControlName="email"
+      placeholder="your@email.com"
+      data-testid="login-email-input"
+    />
+  </euc-label>
+  <euc-label class="auth-form__label" labelText="Password">
+    <input
+      autocomplete="current-password"
+      formControlName="password"
+      type="password"
+      placeholder="yourSecretPassword123"
+      data-testid="login-password-input"
+    />
+  </euc-label>
+
+  <footer class="auth-form__footer">
+    <div class="auth-form__links">
+      <a routerLink="../register">Register</a>
+      <a routerLink="../reset-password">Forgot Password?</a>
+    </div>
+
+    <button
+      data-testid="login-submit-button"
+      class="primary auth-form__submit-button"
+      type="submit"
+      [eucLoading]="isLoading$ | async"
+    >
+      Sign In
+    </button>
+  </footer>
+</form>

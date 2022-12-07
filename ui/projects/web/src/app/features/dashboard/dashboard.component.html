@@ -1,0 +1,59 @@
+<h1>Boilerplate (v. {{ appConfigService.version }}) works 🎉🎉🎉</h1>
+
+<section>
+  <h2>Next steps <mat-icon>arrow_downward</mat-icon></h2>
+  <ol class="next-steps">
+    <li>
+      Globally replace <code>exercise-ui</code> to your project
+      name in
+      <em>kebab-case</em>
+    </li>
+    <li>
+      Globally replace <code>eu</code> to your project prefix, it should be
+      a short lowercased abbreviation of your project name
+    </li>
+    <li>Set up the environment</li>
+    <li>Delete the <code>dashboard</code> feature</li>
+    <li>
+      Fill the root README with relevant data and remove the information about
+      the boilerplate setup
+    </li>
+    <li>
+      Adjust <code>CODEOWNERS</code> of your application, make sure you have at
+      least one code reviewer before starting a project 👨‍💻
+    </li>
+  </ol>
+
+  <p>
+    <strong>And that's it, your're ready to go! 🥷😎</strong>
+  </p>
+</section>
+<div class="welcome-message">
+  <ng-container
+    *ngIf="
+      userService.currentUser$ | async as user;
+      else unauthorizedUserTemplate
+    "
+  >
+    <p>
+      Username is <strong>{{ user.firstName }} {{ user.lastName }}</strong>
+    </p>
+
+    <button
+      class="primary"
+      [eucLoading]="isLoading$ | async"
+      (click)="onLogoutClick()"
+      type="button"
+    >
+      Log Out
+    </button>
+  </ng-container>
+
+  <ng-template #unauthorizedUserTemplate>
+    <p>
+      User is not authorized. You can now try to log in (will only work with
+      <code>apiUrl</code> set up)
+    </p>
+    <a class="primary" routerLink="/auth/login">Log In</a>
+  </ng-template>
+</div>

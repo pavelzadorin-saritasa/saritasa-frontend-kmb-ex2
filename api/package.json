@@ -1,0 +1,21 @@
+{
+  "name": "exercise-1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "routes.js",
+  "scripts": {
+    "start": "npx tsc && node --es-module-specifier-resolution=node build/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "@types/pg": "^8.6.5",
+    "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "pg": "^8.8.0"
+  }
+}

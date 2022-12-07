@@ -1,0 +1,26 @@
+button.primary,
+a.primary {
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 10px;
+  background-color: var(--primary-color);
+  border: none;
+  font-weight: bold;
+  color: var(--primary-contrast-color);
+  transition: background-color, opacity 300ms ease-in-out;
+}
+
+button.primary:hover,
+a.primary:hover {
+  background-color: var(--primary-light-color);
+}
+
+button.primary:active,
+a.primary:active {
+  background-color: var(--primary-dark-color);
+}
+
+button.primary:disabled,
+a.primary:disabled {
+  opacity: 0.8;
+}

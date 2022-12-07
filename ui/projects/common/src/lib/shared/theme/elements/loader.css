@@ -1,0 +1,46 @@
+.euc-loading {
+  --spinner-color: white;
+  --spinner-size: 12px;
+
+  cursor: progress;
+  position: relative;
+  overflow: hidden;
+}
+
+.euc-loading::after {
+  position: absolute;
+  top: calc(50% - var(--spinner-size));
+  left: calc(50% - var(--spinner-size));
+  content: " ";
+  display: block;
+  width: var(--spinner-size);
+  height: var(--spinner-size);
+  margin: 5px;
+  border-radius: 50%;
+  border: 2px solid var(--spinner-color);
+  border-color: var(--spinner-color) transparent var(--spinner-color)
+    transparent;
+  animation: euc-loading-spin 1.2s ease-in-out infinite;
+  z-index: 1;
+}
+
+.euc-loading::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  animation: fadein 200ms ease-in;
+  /* To balance loader positioning on flexbox */
+  content: "";
+}
+
+@keyframes euc-loading-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

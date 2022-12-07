@@ -1,0 +1,6 @@
+/* Barrel file for element's styles that are shared across projects. */
+@import "./list.css";
+@import "./image.css";
+@import "./input.css";
+@import "./button.css";
+@import "./loader.css";

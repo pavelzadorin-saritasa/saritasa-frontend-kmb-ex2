@@ -1,0 +1,112 @@
+{
+  "root": true,
+  "ignorePatterns": ["projects/*/src/index.html"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["tsconfig.*?.json"],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "plugin:@angular-eslint/recommended",
+        "@saritasa/eslint-config-saritasa"
+      ],
+      "plugins": ["rxjs"],
+      "rules": {
+        "no-void": "error",
+        "rxjs/no-exposed-subjects": ["error", { "allowProtected": true }],
+        "rxjs/finnish": [
+          "error",
+          {
+            "functions": false,
+            "methods": false,
+            "names": {
+              "^(canActivate|canActivateChild|canDeactivate|canLoad|intercept|resolve|validate|.*Subject)$": false
+            },
+            "parameters": true,
+            "properties": true,
+            "strict": true,
+            "types": {
+              "^EventEmitter$": false
+            },
+            "variables": true
+          }
+        ],
+        "rxjs/no-ignored-replay-buffer": "error",
+        "rxjs/no-internal": "error",
+        "rxjs/no-nested-subscribe": "error",
+        "rxjs/no-unbound-methods": "error",
+        "rxjs/throw-error": "error",
+        "rxjs/no-async-subscribe": "error",
+        "rxjs/no-create": "error",
+        "rxjs/no-ignored-observable": "error",
+        "rxjs/no-implicit-any-catch": "error",
+        "rxjs/no-index": "error",
+        "rxjs/no-sharereplay": [
+          "error",
+          {
+            "allowConfig": true
+          }
+        ],
+        "rxjs/no-subclass": "error",
+        "rxjs/no-unsafe-takeuntil": [
+          "error",
+          {
+            "alias": ["untilDestroyed"]
+          }
+        ],
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@eu/*", "!@eu/common"],
+                "message": "You can not import from one application to another directly, please move the reusable/shared entities into common library. https://wiki.saritasa.rocks/frontend/frameworks/angular/project-structure#relationships-between-applications"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "rules": {
+        "@angular-eslint/template/use-track-by-function": "error"
+      }
+    },
+    {
+      "files": ["*.component.ts"],
+      "extends": ["plugin:@angular-eslint/template/process-inline-templates"],
+      "plugins": ["rxjs"]
+    },
+    {
+      "files": ["*.dto.ts", "*.mapper.ts"],
+      "rules": {
+        "no-restricted-syntax": [
+          "error",
+          {
+            "selector": "TSPropertySignature[readonly=undefined]",
+            "message": "Missing 'readonly' modifier for the DTO property."
+          },
+          {
+            "selector": "TSPropertySignature TSTypeAnnotation[typeAnnotation.type='TSArrayType']",
+            "message": "Missing 'readonly' type modifier for array."
+          }
+        ],
+        "@typescript-eslint/naming-convention": "off"
+      }
+    },
+    {
+      "files": ["*.spec.ts"],
+      "rules": {
+        "max-lines-per-function": "off",
+        "@typescript-eslint/naming-convention": "off",
+        "@angular-eslint/use-component-selector": "off",
+        "jsdoc/require-jsdoc": "off",
+        "@typescript-eslint/explicit-function-return-type": "off"
+      }
+    }
+  ]
+}

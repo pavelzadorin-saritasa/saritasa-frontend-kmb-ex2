@@ -1,0 +1,179 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "schematicCollections": ["@angular-eslint/schematics"]
+  },
+  "version": 1,
+  "newProjectRoot": "projects",
+  "schematics": {
+    "@schematics/angular:component": {
+      "changeDetection": "OnPush",
+      "displayBlock": true,
+      "style": "css"
+    },
+    "@angular-eslint/schematics:application": {
+      "routing": true,
+      "strict": true,
+      "style": "css"
+    }
+  },
+  "projects": {
+    "web": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/web",
+      "sourceRoot": "projects/web/src",
+      "prefix": "euw",
+      "architect": {
+        "build": {
+          "builder": "@ngx-env/builder:browser",
+          "options": {
+            "outputPath": "dist/web",
+            "index": "projects/web/src/index.html",
+            "main": "projects/web/src/main.ts",
+            "polyfills": "projects/web/src/polyfills.ts",
+            "tsConfig": "projects/web/tsconfig.app.json",
+            "assets": [
+              "projects/web/src/favicon.ico",
+              "projects/web/src/assets"
+            ],
+            "styles": [
+              "projects/web/src/theme/material-custom-theme.scss",
+              "projects/web/src/theme/styles.css",
+              "projects/common/src/lib/shared/theme/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/web/src/environments/environment.ts",
+                  "with": "projects/web/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "outputHashing": "all",
+              "assets": [
+                "projects/web/src/favicon.ico",
+                "projects/web/src/assets",
+                "projects/web/src/robots.txt"
+              ]
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@ngx-env/builder:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "web:build:production"
+            },
+            "development": {
+              "browserTarget": "web:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@ngx-env/builder:extract-i18n",
+          "options": {
+            "browserTarget": "web:build"
+          }
+        },
+        "test": {
+          "builder": "@ngx-env/builder:karma",
+          "options": {
+            "main": "projects/web/src/test.ts",
+            "polyfills": "projects/web/src/polyfills.ts",
+            "tsConfig": "projects/web/tsconfig.spec.json",
+            "karmaConfig": "projects/web/karma.conf.js",
+            "assets": [
+              "projects/web/src/favicon.ico",
+              "projects/web/src/assets"
+            ],
+            "styles": ["projects/web/src/theme/styles.css"],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/web/**/*.ts",
+              "projects/web/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "common": {
+      "projectType": "library",
+      "root": "projects/common",
+      "sourceRoot": "projects/common/src",
+      "prefix": "euc",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/common/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/common/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/common/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@ngx-env/builder:karma",
+          "options": {
+            "main": "projects/common/src/test.ts",
+            "tsConfig": "projects/common/tsconfig.spec.json",
+            "karmaConfig": "projects/common/karma.conf.js",
+            "codeCoverageExclude": [
+              "projects/common/src/testing/**/*",
+              "projects/common/src/lib/**/*.mapper.ts"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/common/**/*.ts",
+              "projects/common/**/*.html"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

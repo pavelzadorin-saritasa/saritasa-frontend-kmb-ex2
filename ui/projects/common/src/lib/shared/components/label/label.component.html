@@ -1,0 +1,14 @@
+<label class="label">
+  <span class="label__content" data-testid="label" *ngIf="labelText !== null">
+    {{ labelText }}
+  </span>
+  <div class="label__input">
+    <ng-content></ng-content>
+  </div>
+  <euc-validation-message
+    data-testid="error"
+    class="error"
+    [errors]="errors$ | async"
+  >
+  </euc-validation-message>
+</label>
