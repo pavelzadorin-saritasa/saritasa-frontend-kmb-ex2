@@ -1,12 +1,24 @@
 import { query } from "../core/repository.service";
 
+/** Application user representation. */
 export class User {
+
+  /** Uniq user ID. */
   id: number;
+
+  /** User email. */
   email: string;
+
+  /** Password for auth to app. */
   password: string;
+
+  /** First name. */
   firstName: string;
+
+  /** Last name. */
   lastName: string;
 
+  /** @constructor */
   public constructor(data: User) {
     this.id = data.id;
     this.email = data.email;
@@ -15,6 +27,9 @@ export class User {
     this.lastName = data.lastName;
   }
 
+  /**
+   * Map DB instance to model entity.
+   */
   static mapDbToModel(dbItem: any) {
     return {
       id: dbItem.id,
@@ -25,8 +40,13 @@ export class User {
     } as User;
   }
   
-  static async find(id: number) {
-    const res = await query('SELECT * FROM users WHERE id = $1', [id.toString()]);
+  /**
+   * Find User instance by email.
+   * @param email User email.
+   * @returns User instance.
+   */
+  static async findByEmail(email: string) {
+    const res = await query('SELECT * FROM users WHERE email = $1', [email]);
     if (res.length > 0) {
       return new User(User.mapDbToModel(res[0]));
     }

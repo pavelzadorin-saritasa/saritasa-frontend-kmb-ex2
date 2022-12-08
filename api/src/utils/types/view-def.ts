@@ -1,5 +1,5 @@
 /**
  * Helper type describing a standard view function.
- * @param req Request data container.
+ * @param reqBody Request body container.
  */
-export type ViewDef = (req: string) => Promise<string | null>;
+export type ViewDef = (reqBody: string | null) => Promise<string | null>;

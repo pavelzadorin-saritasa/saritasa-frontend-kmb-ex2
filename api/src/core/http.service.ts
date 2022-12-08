@@ -1,7 +1,6 @@
 import * as http from 'http';
 import { ViewDef } from '../utils/types/view-def';
 import { LoginView } from '../views/login.view';
-import { ProfileView } from '../views/profile.view';
 
 /** Helper class unite supported HTTP methods. */
 type SupportedMethod = 'POST' | 'GET';
@@ -25,8 +24,6 @@ function routeToViews(url: string): Partial<Record<SupportedMethod, ViewDef>> | 
   switch (url) {
     case '/auth/login/':
       return { 'POST': LoginView };
-    case '/profile':
-      return { 'GET': ProfileView };
   }
 
   return null; 
@@ -38,12 +35,16 @@ function routeToViews(url: string): Partial<Record<SupportedMethod, ViewDef>> | 
  * @return Entire request body object.
  */
 async function getRequestBody(req: http.IncomingMessage) {
-  let body: Uint8Array[] = [];
-  req.on('data', (chunk: Uint8Array) => {
-    body.push(chunk);
-  }).on('end', () => {
-    return Buffer.concat(body).toString();
-  });
+  const task = new Promise<string>((resolve) => {
+    let body: Uint8Array[] = [];
+    req.on('data', (chunk: Uint8Array) => {
+      body.push(chunk);
+    }).on('end', () => {
+      resolve(Buffer.concat(body).toString());
+    });
+  })
+  
+  return await task;
 }
 
 /**
@@ -70,10 +71,12 @@ async function requestListener(req: http.IncomingMessage, res: http.ServerRespon
 
     if (views && isMethodSupported(req.method) && Object.keys(views).includes(req.method)) {
       try {
+        let body: string | null = null;
+        if (req.method === 'POST') {
+          body = await getRequestBody(req);
+        }
 
-
-
-        const viewContent = await views[req.method]?.(req.url);
+        const viewContent = await views[req.method]?.(body);
         if (viewContent !== null) {
           res.writeHead(200);
           res.end(viewContent);
@@ -81,13 +84,13 @@ async function requestListener(req: http.IncomingMessage, res: http.ServerRespon
         }
       } catch (e: unknown) {
         res.writeHead(500);
-        res.end(JSON.stringify({ error: 'Internal server error.', details: e }));
+        res.end(JSON.stringify({ detail: 'Internal server error.', details: e }));
         return;
       }
     }
 
     res.writeHead(404);
-    res.end(JSON.stringify({ error: 'Resource not found.' }));
+    res.end(JSON.stringify({ detail: 'Resource not found.' }));
   }
 }
 

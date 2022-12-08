@@ -4,6 +4,7 @@
   "description": "",
   "main": "routes.js",
   "scripts": {
+    "build": "npx tsc",
     "start": "npx tsc && node --es-module-specifier-resolution=node build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

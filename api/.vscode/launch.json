@@ -11,7 +11,7 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/api/src/index.ts",
+      "program": "${workspaceFolder}/src/index.ts",
       "runtimeArgs": [
         "--es-module-specifier-resolution=node"
       ],
@@ -23,6 +23,7 @@
         "PGPASSWORD": "secret",
         "PGDATABASE": "vocabulary"
       },
+      "preLaunchTask": "npm: build",
       "outFiles": [
         "${workspaceFolder}/**/*.js"
       ]
